@@ -7,6 +7,32 @@
 
 import SwiftUI
 
+struct FlagImage: View {
+    let countryName: String
+    
+    var body: some View {
+        Image(countryName)
+            .clipShape(Capsule())
+            .shadow(color: .black, radius: 5, x: 0, y: 5)
+    }
+}
+
+extension View {
+    func largeTitleStyle() -> some View {
+        modifier(LargeTitle())
+    }
+}
+
+struct LargeTitle: ViewModifier {
+    
+    func body(content: Content) -> some View {
+        content
+            .font(.largeTitle.bold())
+            .foregroundColor(.white)
+    }
+
+}
+
 struct GuessTheFlag: View {
     
     @State private var showingScore = false
@@ -37,8 +63,7 @@ struct GuessTheFlag: View {
                 Spacer()
                 
                 Text("Guess the Flag")
-                    .font(.largeTitle.bold())
-                    .foregroundColor(.white)
+                    .largeTitleStyle()
                 
                 VStack(spacing: 30) {
                     VStack {
@@ -53,9 +78,7 @@ struct GuessTheFlag: View {
                         Button {
                             flagTapped(number)
                         } label: {
-                            Image(countries[number])
-                                .clipShape(Capsule())
-                                .shadow(color: .black, radius: 5, x: 0, y: 5)
+                            FlagImage(countryName: countries[number])
                         }
                     }
                 }
