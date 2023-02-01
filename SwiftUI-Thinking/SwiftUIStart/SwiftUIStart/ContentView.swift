@@ -1,8 +1,8 @@
 //
 //  ContentView.swift
-//  SwiftUI-First-Try_25.01
+//  SwiftUIStart
 //
-//  Created by Меньков Д.В. on 25/1/23.
+//  Created by Меньков Д.В. on 1/2/23.
 //
 
 import SwiftUI

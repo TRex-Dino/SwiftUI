@@ -1,6 +1,6 @@
 //
 //  TextBootcamp.swift
-//  SwiftUI-First-Try_25.01
+//  SwiftUI-Start
 //
 //  Created by Меньков Д.В. on 25/1/23.
 //
