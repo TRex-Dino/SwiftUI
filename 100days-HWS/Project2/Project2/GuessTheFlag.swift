@@ -34,6 +34,9 @@ struct LargeTitle: ViewModifier {
 }
 
 struct GuessTheFlag: View {
+    @State private var animationAmountCorrectButton = 0.0
+    @State private var animationAmountWrongButton = 0.0
+    @State private var wrongButtonOpacity = 1.0
     
     @State private var showingScore = false
     @State private var showingFinalScore = false
@@ -46,7 +49,6 @@ struct GuessTheFlag: View {
     
     @State private var wrongAnswerMessage = ""
     @State private var totalAnswer = 0
-    
     var body: some View {
         ZStack {
 //            LinearGradient(colors: [.blue, .black], startPoint: .top, endPoint: .bottom)
@@ -79,6 +81,13 @@ struct GuessTheFlag: View {
                             flagTapped(number)
                         } label: {
                             FlagImage(countryName: countries[number])
+                                .rotation3DEffect(.degrees(number == correctAnswer
+                                                           ? animationAmountCorrectButton
+                                                           : animationAmountWrongButton),
+                                                  axis: (x: 0, y: 1, z: 0))
+                                .opacity(number != correctAnswer
+                                         ? wrongButtonOpacity
+                                         : 1)
                         }
                     }
                 }
@@ -113,6 +122,7 @@ struct GuessTheFlag: View {
             scoreTitle = "Correct"
             score += 1
             wrongAnswerMessage = ""
+            correctButtonTapped()
         } else {
             scoreTitle = "Wrong"
             score -= 1
@@ -125,10 +135,20 @@ struct GuessTheFlag: View {
             showingScore = true
         }
     }
+    private func correctButtonTapped() {
+        withAnimation(.interpolatingSpring(stiffness: 5, damping: 10)) {
+            animationAmountCorrectButton += 360
+            animationAmountWrongButton -= 360
+        }
+        withAnimation(.easeOut) {
+            wrongButtonOpacity = 0.5
+        }
+    }
     
     private func askQuestion() {
         countries.shuffle()
         correctAnswer = Int.random(in: 0...2)
+        wrongButtonOpacity = 1
     }
     
     private func restartGame() {
