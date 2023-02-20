@@ -69,15 +69,20 @@ struct ContentView: View {
                             HStack {
                                 Text("\(currentNumber) * \(randomNumber) = ")
                                 Spacer()
-                                TextField("Answer", text: $answer) { isEditing in
-                                    if !isEditing {
-                                        stopEditing()
-                                    }
-                                    
-                                }
+                                TextField("Answer", text: $answer)
+//                                { isEditing in
+//                                    if !isEditing {
+//                                        stopEditing()
+//                                    }
+//
+//                                }
+                                
                                 .keyboardType(.decimalPad)
                                 .focused($userAnswerIsFocused)
                                 .frame(width: 70)
+                                .onSubmit {
+                                    stopEditing()
+                                }
                                 .onTapGesture {
                                     answer = ""
                                 }
@@ -144,9 +149,7 @@ struct ContentView: View {
             return
         }
         
-        DispatchQueue.main.async {
-            answer = ""
-        }
+        answer = ""
         let isCorrect = (currentNumber * randomNumber) == intAnswer
         userAnswers.append(Answer(title: "\(currentNumber) * \(randomNumber) = \(intAnswer)",
                                   isCorrect: isCorrect))
